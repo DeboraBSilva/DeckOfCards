@@ -107,4 +107,25 @@ function showClubsCards() {
   divCards.replaceChildren(...nodeList);
 }
 
+// Shuffle Cards
+const btnShuffle = document.querySelector("#shuffle-button");
+btnShuffle.addEventListener("click", showShuffledDeck);
+
+function showShuffledDeck() {
+  const shuffledDeck = shuffle();
+  const nodeList = createNodeList(shuffledDeck);
+  divCards.replaceChildren(...nodeList);
+}
+
+function shuffle() {
+  const list = [...deck];
+  const shuffledDeck = [];
+  for (let i = list.length; i > 0; i--) {
+    let randomIndex = Math.floor(Math.random() * i);
+    shuffledDeck.push(list[randomIndex]);
+    list.splice(randomIndex, 1);
+  }
+  return shuffledDeck;
+}
+
 showInitialDeck();
