@@ -15,7 +15,8 @@ const cardValues = [
   "King",
 ];
 
-const deck = [];
+const initialDeck = [];
+let currentDeck = [];
 
 const buildDeck = () => {
   suits.forEach((suit) => {
@@ -24,7 +25,7 @@ const buildDeck = () => {
         suit,
         cardValue,
       };
-      deck.push(card);
+      initialDeck.push(card);
     });
   });
 };
@@ -37,7 +38,6 @@ const createNodeList = (list) => {
   return list.map((card) => {
     const el = document.createElement("div");
     el.textContent = `${card.cardValue} of  ${card.suit}`;
-
     return el;
   });
 };
@@ -47,8 +47,9 @@ const btnInitialDeck = document.querySelector("#initial-deck-button");
 btnInitialDeck.addEventListener("click", showInitialDeck);
 
 function showInitialDeck() {
-  const nodeList = createNodeList(deck);
+  const nodeList = createNodeList(initialDeck);
   divCards.replaceChildren(...nodeList);
+  currentDeck = [...initialDeck];
 }
 
 // Button Hearts
@@ -56,7 +57,7 @@ const btnHearts = document.querySelector("#hearts-button");
 btnHearts.addEventListener("click", showHeartCards);
 
 function filterHeartCards() {
-  return deck.filter((card) => card.suit == "Hearts");
+  return currentDeck.filter((card) => card.suit == "Hearts");
 }
 
 function showHeartCards() {
@@ -70,7 +71,7 @@ const btnSpades = document.querySelector("#spades-button");
 btnSpades.addEventListener("click", showSpadesCards);
 
 function filterSpadesCards() {
-  return deck.filter((card) => card.suit == "Spades");
+  return currentDeck.filter((card) => card.suit == "Spades");
 }
 
 function showSpadesCards() {
@@ -84,7 +85,7 @@ const btnDiamonds = document.querySelector("#diamonds-button");
 btnDiamonds.addEventListener("click", showDiamondsCards);
 
 function filterDiamondsCards() {
-  return deck.filter((card) => card.suit == "Diamonds");
+  return currentDeck.filter((card) => card.suit == "Diamonds");
 }
 
 function showDiamondsCards() {
@@ -98,7 +99,7 @@ const btnClubs = document.querySelector("#clubs-button");
 btnClubs.addEventListener("click", showClubsCards);
 
 function filterClubsCards() {
-  return deck.filter((card) => card.suit == "Clubs");
+  return currentDeck.filter((card) => card.suit == "Clubs");
 }
 
 function showClubsCards() {
@@ -115,10 +116,11 @@ function showShuffledDeck() {
   const shuffledDeck = shuffle();
   const nodeList = createNodeList(shuffledDeck);
   divCards.replaceChildren(...nodeList);
+  currentDeck = [...shuffledDeck];
 }
 
 function shuffle() {
-  const list = [...deck];
+  const list = [...initialDeck];
   const shuffledDeck = [];
   for (let i = list.length; i > 0; i--) {
     let randomIndex = Math.floor(Math.random() * i);
