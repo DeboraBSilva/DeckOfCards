@@ -42,8 +42,14 @@ const createNodeList = (list) => {
   });
 };
 
-const nodeList = createNodeList(deck);
-divCards.append(...nodeList);
+// Button Initial Deck
+const btnInitialDeck = document.querySelector("#initial-deck-button");
+btnInitialDeck.addEventListener("click", showInitialDeck);
+
+function showInitialDeck() {
+  const nodeList = createNodeList(deck);
+  divCards.replaceChildren(...nodeList);
+}
 
 // Button Hearts
 const btnHearts = document.querySelector("#hearts-button");
@@ -100,3 +106,5 @@ function showClubsCards() {
   const nodeList = createNodeList(clubsCards);
   divCards.replaceChildren(...nodeList);
 }
+
+showInitialDeck();
