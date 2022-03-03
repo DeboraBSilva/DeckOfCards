@@ -22,7 +22,7 @@ const buildDeck = () => {
     cardValues.forEach((cardValue) => {
       let card = {
         suit,
-        cardValue
+        cardValue,
       };
       deck.push(card);
     });
@@ -30,8 +30,6 @@ const buildDeck = () => {
 };
 
 buildDeck();
-
-console.log(deck);
 
 divCards = document.getElementById("cards");
 
@@ -44,6 +42,61 @@ const createNodeList = (list) => {
   });
 };
 
-const nodeList =  createNodeList(deck)
+const nodeList = createNodeList(deck);
+divCards.append(...nodeList);
 
-divCards.append(...nodeList)
+// Button Hearts
+const btnHearts = document.querySelector("#hearts-button");
+btnHearts.addEventListener("click", showHeartCards);
+
+function filterHeartCards() {
+  return deck.filter((card) => card.suit == "Hearts");
+}
+
+function showHeartCards() {
+  const heartCards = filterHeartCards();
+  const nodeList = createNodeList(heartCards);
+  divCards.replaceChildren(...nodeList);
+}
+
+// Button Spades
+const btnSpades = document.querySelector("#spades-button");
+btnSpades.addEventListener("click", showSpadesCards);
+
+function filterSpadesCards() {
+  return deck.filter((card) => card.suit == "Spades");
+}
+
+function showSpadesCards() {
+  const spadesCards = filterSpadesCards();
+  const nodeList = createNodeList(spadesCards);
+  divCards.replaceChildren(...nodeList);
+}
+
+// Button Diamonds
+const btnDiamonds = document.querySelector("#diamonds-button");
+btnDiamonds.addEventListener("click", showDiamondsCards);
+
+function filterDiamondsCards() {
+  return deck.filter((card) => card.suit == "Diamonds");
+}
+
+function showDiamondsCards() {
+  const diamondsCards = filterDiamondsCards();
+  const nodeList = createNodeList(diamondsCards);
+  divCards.replaceChildren(...nodeList);
+}
+
+// Button Clubs
+const btnClubs = document.querySelector("#clubs-button");
+btnClubs.addEventListener("click", showClubsCards);
+
+function filterClubsCards() {
+  return deck.filter((card) => card.suit == "Clubs");
+}
+
+function showClubsCards() {
+  const clubsCards = filterClubsCards();
+  const nodeList = createNodeList(clubsCards);
+  divCards.replaceChildren(...nodeList);
+}
