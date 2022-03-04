@@ -6,7 +6,7 @@
 body {
   background: linear-gradient(to bottom, rgba(204, 204, 204, 0.4), rgba(204, 204, 204, 0.4)),
     url('../deck-of-cards/images/pexels-photo-2508565.jpeg');
-  background-size: auto;
+  background-size: 100vw;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -45,6 +45,11 @@ button:active {
   align-items: center;
   background-color: #fff;
   margin: 2px;
+}
+
+div {
+  display: grid;
+  grid-template-columns: repeat(4, 300px);
 }
 
 .div__button {
