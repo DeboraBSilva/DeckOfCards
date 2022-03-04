@@ -27,7 +27,7 @@ function buildDeck() {
 
 const initialDeck = buildDeck();
 
-divCards = document.getElementById("cards");
+const divCards = document.getElementById("cards");
 
 function createNodeList(list) {
   return list.map((card) => {
