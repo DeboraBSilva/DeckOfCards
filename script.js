@@ -37,19 +37,21 @@ function createNodeList(list) {
   });
 };
 
-function showDeck(deck) {
-  return () => {
-    const nodeList = createNodeList(deck);
-    divCards.replaceChildren(...nodeList);
-    currentDeck = [...deck];
-  };
+function showDeck() {
+  const nodeList = createNodeList(currentDeck);
+  divCards.replaceChildren(...nodeList);
 };
 
-showDeck(initialDeck)();
+function showInitialDeck() {
+  currentDeck = [...initialDeck];
+  showDeck();
+}
+
+showInitialDeck();
 
 function showShuffledDeck() {
-  const shuffledDeck = shuffle();
-  showDeck(shuffledDeck)();
+  currentDeck = shuffle();
+  showDeck();
 };
 
 function showCards(suit) {
@@ -77,7 +79,7 @@ function shuffle() {
 
 // Buttons
 const btnInitialDeck = document.querySelector("#initial-deck-button");
-btnInitialDeck.addEventListener("click", showDeck(initialDeck));
+btnInitialDeck.addEventListener("click", showInitialDeck);
 
 const btnShuffle = document.querySelector("#shuffle-button");
 btnShuffle.addEventListener("click", showShuffledDeck);
