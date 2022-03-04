@@ -17,7 +17,7 @@ const cardValues = [
 
 let currentDeck = [];
 
-const buildDeck = () => {
+function buildDeck() {
   return suits.flatMap((suit) => {
     return cardValues.map((cardValue) => {
       return { suit, cardValue };
@@ -29,7 +29,7 @@ const initialDeck = buildDeck();
 
 divCards = document.getElementById("cards");
 
-const createNodeList = (list) => {
+function createNodeList(list) {
   return list.map((card) => {
     const el = document.createElement("div");
     el.textContent = `${card.cardValue} of ${card.suit}`;
@@ -52,16 +52,16 @@ function showShuffledDeck() {
   showDeck(shuffledDeck)();
 };
 
-function filterCards(suit) {
-  return currentDeck.filter((card) => card.suit == suit);
-};
-
 function showCards(suit) {
   return () => {
     const cards = filterCards(suit);
     const nodeList = createNodeList(cards);
     divCards.replaceChildren(...nodeList);
   };
+};
+
+function filterCards(suit) {
+  return currentDeck.filter((card) => card.suit == suit);
 };
 
 function shuffle() {
