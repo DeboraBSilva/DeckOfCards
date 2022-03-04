@@ -15,109 +15,54 @@ const cardValues = [
   "King",
 ];
 
-const initialDeck = [];
 let currentDeck = [];
 
 const buildDeck = () => {
-  suits.forEach((suit) => {
-    cardValues.forEach((cardValue) => {
-      let card = {
-        suit,
-        cardValue,
-      };
-      initialDeck.push(card);
+  return suits.flatMap((suit) => {
+    return cardValues.map((cardValue) => {
+      return { suit, cardValue };
     });
   });
 };
 
-buildDeck();
+const initialDeck = buildDeck();
 
 divCards = document.getElementById("cards");
 
 const createNodeList = (list) => {
   return list.map((card) => {
     const el = document.createElement("div");
-    el.textContent = `${card.cardValue} of  ${card.suit}`;
+    el.textContent = `${card.cardValue} of ${card.suit}`;
     return el;
   });
 };
 
-// Button Initial Deck
-const btnInitialDeck = document.querySelector("#initial-deck-button");
-btnInitialDeck.addEventListener("click", showInitialDeck);
+function showDeck(deck) {
+  return () => {
+    const nodeList = createNodeList(deck);
+    divCards.replaceChildren(...nodeList);
+    currentDeck = [...deck];
+  };
+};
 
-function showInitialDeck() {
-  const nodeList = createNodeList(initialDeck);
-  divCards.replaceChildren(...nodeList);
-  currentDeck = [...initialDeck];
-}
-
-// Button Hearts
-const btnHearts = document.querySelector("#hearts-button");
-btnHearts.addEventListener("click", showHeartCards);
-
-function filterHeartCards() {
-  return currentDeck.filter((card) => card.suit == "Hearts");
-}
-
-function showHeartCards() {
-  const heartCards = filterHeartCards();
-  const nodeList = createNodeList(heartCards);
-  divCards.replaceChildren(...nodeList);
-}
-
-// Button Spades
-const btnSpades = document.querySelector("#spades-button");
-btnSpades.addEventListener("click", showSpadesCards);
-
-function filterSpadesCards() {
-  return currentDeck.filter((card) => card.suit == "Spades");
-}
-
-function showSpadesCards() {
-  const spadesCards = filterSpadesCards();
-  const nodeList = createNodeList(spadesCards);
-  divCards.replaceChildren(...nodeList);
-}
-
-// Button Diamonds
-const btnDiamonds = document.querySelector("#diamonds-button");
-btnDiamonds.addEventListener("click", showDiamondsCards);
-
-function filterDiamondsCards() {
-  return currentDeck.filter((card) => card.suit == "Diamonds");
-}
-
-function showDiamondsCards() {
-  const diamondsCards = filterDiamondsCards();
-  const nodeList = createNodeList(diamondsCards);
-  divCards.replaceChildren(...nodeList);
-}
-
-// Button Clubs
-const btnClubs = document.querySelector("#clubs-button");
-btnClubs.addEventListener("click", showClubsCards);
-
-function filterClubsCards() {
-  return currentDeck.filter((card) => card.suit == "Clubs");
-}
-
-function showClubsCards() {
-  const clubsCards = filterClubsCards();
-  const nodeList = createNodeList(clubsCards);
-  divCards.replaceChildren(...nodeList);
-}
-
-// Shuffle Cards
-const btnShuffle = document.querySelector("#shuffle-button");
-btnShuffle.addEventListener("click", showShuffledDeck);
+showDeck(initialDeck)();
 
 function showShuffledDeck() {
   const shuffledDeck = shuffle();
-  const nodeList = createNodeList(shuffledDeck);
-  divCards.replaceChildren(...nodeList);
-  currentDeck = [...shuffledDeck];
-}
+  showDeck(shuffledDeck)();
+};
+
+function filterCards(suit) {
+  return currentDeck.filter((card) => card.suit == suit);
+};
+
+function showCards(suit) {
+  return () => {
+    const cards = filterCards(suit);
+    const nodeList = createNodeList(cards);
+    divCards.replaceChildren(...nodeList);
+  };
+};
 
 function shuffle() {
   const list = [...initialDeck];
@@ -126,8 +71,25 @@ function shuffle() {
     let randomIndex = Math.floor(Math.random() * i);
     shuffledDeck.push(list[randomIndex]);
     list.splice(randomIndex, 1);
-  }
+  };
   return shuffledDeck;
-}
+};
 
-showInitialDeck();
+// Buttons
+const btnInitialDeck = document.querySelector("#initial-deck-button");
+btnInitialDeck.addEventListener("click", showDeck(initialDeck));
+
+const btnShuffle = document.querySelector("#shuffle-button");
+btnShuffle.addEventListener("click", showShuffledDeck);
+
+const btnHearts = document.querySelector("#hearts-button");
+btnHearts.addEventListener("click", showCards('Hearts'));
+
+const btnSpades = document.querySelector("#spades-button");
+btnSpades.addEventListener("click", showCards('Spades'));
+
+const btnDiamonds = document.querySelector("#diamonds-button");
+btnDiamonds.addEventListener("click", showCards('Diamonds'));
+
+const btnClubs = document.querySelector("#clubs-button");
+btnClubs.addEventListener("click", showCards('Clubs'));
